@@ -5,10 +5,11 @@ library(tictoc)
 
 tic()
 
+rm(list = ls())
+gc()
+
 alumnos_curso <- 100
 cursos_val    <- 4
-colegios_val  <- 10 
-
 
 datos_1 <- data.frame(
   colegio = 1,
@@ -16,25 +17,12 @@ datos_1 <- data.frame(
   alumno  = rep( 1:alumnos_curso, cursos_val)
 )
 
-# datos_2  <- datos_1 %>% mutate(colegio = 2)
-# datos_3  <- datos_1 %>% mutate(colegio = 3)
-# datos_4  <- datos_1 %>% mutate(colegio = 4)
-# datos_5  <- datos_1 %>% mutate(colegio = 5)
-# datos_6  <- datos_1 %>% mutate(colegio = 6)
-# datos_7  <- datos_1 %>% mutate(colegio = 7)
-# datos_8  <- datos_1 %>% mutate(colegio = 8)
-# datos_9  <- datos_1 %>% mutate(colegio = 9)
-# datos_10 <- datos_1 %>% mutate(colegio = 10)
-
+num_colegios <- 500
 datos <- datos_1
-for ( i in 2: 10) {
+for (i in 2:num_colegios) {
   dat_tmp <- datos_1 %>% mutate(colegio = i)
   datos   <- rbind(datos, dat_tmp)
 }
-
-# #--- Datos de todos los colegios
-# datos <- rbind(datos_1, datos_2, datos_3, datos_4, datos_5, 
-#                datos_6, datos_7, datos_8, datos_9, datos_10)
 
 #--- Añado las notas de forma aleatoria
 datos %<>% mutate(notas = sample(1:10, nrow(datos), replace = TRUE) ) 
@@ -56,5 +44,6 @@ res_out <- left_join(res_final, rev_perc, by = c("percen" = "per_rev") ) %>%
   select(-percen) %>%
   rename(percentile = rev_per)
 
+res_out
 toc()
 
